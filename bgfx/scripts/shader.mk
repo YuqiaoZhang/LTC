@@ -30,9 +30,9 @@ FS_FLAGS=--platform windows -p ps_3_0 -O 3
 SHADER_PATH=shaders/dx9
 else
 ifeq ($(TARGET), 1)
-VS_FLAGS=--platform windows -p vs_4_0 -O 3
-FS_FLAGS=--platform windows -p ps_4_0 -O 3
-CS_FLAGS=--platform windows -p cs_5_0 -O 1
+VS_FLAGS=-p vs_4_0 --platform windows #--debug #-O 0 
+FS_FLAGS=-p ps_4_0 --platform windows #--debug #-O 0 
+CS_FLAGS=-p cs_5_0 --platform windows #--debug #-O 0 
 SHADER_PATH=shaders/dx11
 else
 ifeq ($(TARGET), 2)
@@ -105,17 +105,17 @@ endif
 
 $(BUILD_INTERMEDIATE_DIR)/vs_%.bin : $(SHADERS_DIR)vs_%.sc
 	@echo [$(<)]
-	$(SILENT) $(SHADERC) $(VS_FLAGS) --type vertex --depends -o $(@) -f $(<) --disasm
+	$(SILENT) $(SHADERC) -f $(<) -o $(@) --type vertex $(VS_FLAGS)
 	$(SILENT) cp $(@) $(BUILD_OUTPUT_DIR)/$(@F)
 
 $(BUILD_INTERMEDIATE_DIR)/fs_%.bin : $(SHADERS_DIR)fs_%.sc
 	@echo [$(<)]
-	$(SILENT) $(SHADERC) $(FS_FLAGS) --type fragment --depends -o $(@) -f $(<) --disasm
+	$(SILENT) $(SHADERC) -f $(<) -o $(@) --type fragment $(FS_FLAGS)
 	$(SILENT) cp $(@) $(BUILD_OUTPUT_DIR)/$(@F)
 
 $(BUILD_INTERMEDIATE_DIR)/cs_%.bin : $(SHADERS_DIR)cs_%.sc
 	@echo [$(<)]
-	$(SILENT) $(SHADERC) $(CS_FLAGS) --type compute --depends -o $(@) -f $(<) --disasm
+	$(SILENT) $(SHADERC) -f $(<) -o $(@) --type compute $(CS_FLAGS)
 	$(SILENT) cp $(@) $(BUILD_OUTPUT_DIR)/$(@F)
 
 .PHONY: all

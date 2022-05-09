@@ -145,35 +145,23 @@ namespace bgfx { namespace gl
 			XFree(configs);
 			BGFX_FATAL(m_visualInfo, Fatal::UnableToInitialize, "Failed to find a suitable X11 display configuration.");
 
-			BX_TRACE("Create GL 2.1 context.");
-			m_context = glXCreateContext( (::Display*)g_platformData.ndt, m_visualInfo, 0, GL_TRUE);
-			BGFX_FATAL(NULL != m_context, Fatal::UnableToInitialize, "Failed to create GL 2.1 context.");
-
-#if BGFX_CONFIG_RENDERER_OPENGL >= 31
 			glXCreateContextAttribsARB = (PFNGLXCREATECONTEXTATTRIBSARBPROC)glXGetProcAddress( (const GLubyte*)"glXCreateContextAttribsARB");
+			BGFX_FATAL(NULL != glXCreateContextAttribsARB, Fatal::UnableToInitialize, "Failed to use glXCreateContextAttribsARB.");
 
-			if (NULL != glXCreateContextAttribsARB)
+#if BGFX_CONFIG_RENDERER_OPENGL == 32
+			BX_TRACE("Create GL 3.2 context.");
+			const int contextAttrs[] =
 			{
-				BX_TRACE("Create GL 3.1 context.");
-				const int contextAttrs[] =
-				{
-					GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
-					GLX_CONTEXT_MINOR_VERSION_ARB, 1,
-					GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
-					0,
-				};
-
-				GLXContext context = glXCreateContextAttribsARB( (::Display*)g_platformData.ndt, bestConfig, 0, true, contextAttrs);
-
-				if (NULL != context)
-				{
-					glXDestroyContext( (::Display*)g_platformData.ndt, m_context);
-					m_context = context;
-				}
-			}
+				GLX_CONTEXT_MAJOR_VERSION_ARB, 3,
+				GLX_CONTEXT_MINOR_VERSION_ARB, 2,
+				GLX_CONTEXT_PROFILE_MASK_ARB, GLX_CONTEXT_CORE_PROFILE_BIT_ARB,
+				0,
+			};
+			m_context = glXCreateContextAttribsARB( (::Display*)g_platformData.ndt, bestConfig, 0, true, contextAttrs);
+			BGFX_FATAL(NULL != m_context, Fatal::UnableToInitialize, "Failed to create GL 3.2 context.");
 #else
-			BX_UNUSED(bestConfig);
-#endif // BGFX_CONFIG_RENDERER_OPENGL >= 31
+	#error NOT Supported
+#endif // BGFX_CONFIG_RENDERER_OPENGL == 32
 
 			XUnlockDisplay( (::Display*)g_platformData.ndt);
 		}

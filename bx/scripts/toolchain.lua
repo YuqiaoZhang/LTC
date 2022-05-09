@@ -234,9 +234,9 @@ function toolchain(_buildDir, _libDir)
 			location (path.join(_buildDir, "projects", _ACTION .. "-linux-steamlink"))
 
 		elseif "mingw-gcc" == _OPTIONS["gcc"] then
-			premake.gcc.cc  = "$(MINGW)/bin/x86_64-w64-mingw32-gcc"
-			premake.gcc.cxx = "$(MINGW)/bin/x86_64-w64-mingw32-g++"
-			premake.gcc.ar  = "$(MINGW)/bin/ar"
+			premake.gcc.cc  = "x86_64-w64-mingw32-gcc"
+			premake.gcc.cxx = "x86_64-w64-mingw32-g++"
+			premake.gcc.ar  = "ar"
 			location (path.join(_buildDir, "projects", _ACTION .. "-mingw-gcc"))
 
 		elseif "mingw-clang" == _OPTIONS["gcc"] then
@@ -1187,7 +1187,7 @@ function strip()
 	configuration { "mingw*", "Release" }
 		postbuildcommands {
 			"$(SILENT) echo Stripping symbols.",
-			"$(SILENT) $(MINGW)/bin/strip -s \"$(TARGET)\""
+			"$(SILENT) strip -s \"$(TARGET)\""
 		}
 
 	configuration { "pnacl" }

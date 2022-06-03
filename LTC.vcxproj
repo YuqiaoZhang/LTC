@@ -164,6 +164,80 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <CustomBuild Include="shaders\post_process.frag">
+      <FileType>Document</FileType>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath).inl;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath).inl;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath).inl;%(Outputs)</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath).inl;%(Outputs)</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+    </CustomBuild>
+    <CustomBuild Include="shaders\post_process.vert">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath).inl</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath).inl</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath).inl</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath).inl</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shaders\plane.vert">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath).inl</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shaders\plane.frag">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath).inl</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="shaders\rect_light.frag">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath).inl</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="shaders\rect_light.vert">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\shaders\glslangValidator.exe -g -Od -G -o %(FullPath).inl -x %(FullPath)</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(FullPath).inl</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(FullPath).inl</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="code\demo.cpp" />
     <ClCompile Include="code\support\camera_controller.cpp" />
     <ClCompile Include="code\support\libopengl.cpp" />
@@ -172,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\demo.h" />
+    <ClInclude Include="code\ltc_tables.h" />
     <ClInclude Include="code\support\camera_controller.h" />
     <ClInclude Include="code\support\glcorearb.h" />
     <ClInclude Include="code\support\libopengl.h" />

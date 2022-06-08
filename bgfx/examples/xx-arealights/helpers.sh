@@ -161,27 +161,40 @@ bool QuadRayTest(vec4 q[4], vec3 pos, vec3 dir, out vec2 uv, bool twoSided)
     return true;
 }
 
+float2x2 inverse(float2x2 m)
+{
+    return (float2x2(float2(m[1][1], -m[1][0]), float2(-m[0][1], m[0][0])) / (m[0][0] * m[1][1] - m[1][0] * m[0][1]));
+}
+
 vec3 FetchDiffuseFilteredTexture(sampler2D texLightFiltered, vec3 p1_, vec3 p2_, vec3 p3_, vec3 p4_)
 {
-    // area light plane basis
-    vec3 V1 = p2_ - p1_;
-    vec3 V2 = p4_ - p1_;
-    vec3 planeOrtho = (cross(V1, V2));
-    float planeAreaSquared = dot(planeOrtho, planeOrtho);
-    float planeDistxPlaneArea = dot(planeOrtho, p1_);
-    // orthonormal projection of (0,0,0) in area light space
-    vec3 P = planeDistxPlaneArea * planeOrtho / planeAreaSquared - p1_;
+    // let P be the projection of the (0, 0, 0) on the rect area light plane
+    // uP1P2 + vP1P4 = P1P
+    // uP1P2 + vP1P4 =  OP - OP1 // OP ⋅ P1P2 = 0 and OP ⋅ P1P4 = 0
+    // u(P1P2 ⋅ P1P2) + v(P1P4 ⋅ P1P2) = OP ⋅ V1 - OP1 ⋅ P1P2 ⇒ u(P1P2 ⋅ P1P2) + v(P1P4 ⋅ P1P2) = - OP1 ⋅ P1P2 // dot P1P2 on both sides 
+    // u(P1P2 ⋅ P1P4) + v(P1P4 ⋅ P1P4) = OP ⋅ V1 - OP1 ⋅ P1P4 ⇒ u(P1P2 ⋅ P1P4) + v(P1P4 ⋅ P1P4) = - OP1 ⋅ P1P4 // dot P1P4 on both sides 
+    // | P1P2 ⋅ P1P2 P1P4 ⋅ P1P2 | | u |   | - OP1 ⋅ P1P2 |
+    // | P1P2 ⋅ P1P4 P1P4 ⋅ P1P4 | | v | = | - OP1 ⋅ P1P4 |
+    
+    vec3 P1P2 = p2_ - p1_;
+    vec3 P1P4 = p4_ - p1_;
+    vec3 P1O = -p1_;
 
-    // find tex coords of P
-    float dot_V1_V2 = dot(V1,V2);
-    float inv_dot_V1_V1 = 1.0 / dot(V1, V1);
-    vec3 V2_ = V2 - V1 * dot_V1_V2 * inv_dot_V1_V1;
-    vec2 Puv;
-    Puv.y = dot(V2_, P) / dot(V2_, V2_);
-    Puv.x = dot(V1, P)*inv_dot_V1_V1 - dot_V1_V2*inv_dot_V1_V1*Puv.y ;
+    float P1P2oP1P2 = dot(P1P2, P1P2);
+    float P1P2oP1P4 = dot(P1P2, P1P4);
+    float P1P4oP1P4 = dot(P1P4, P1P4);
+    float P1OoP1P2 = dot(P1O, P1P2);
+    float P1OoP1P4 = dot(P1O, P1P4);
+
+    float2x2 M = float2x2(
+        vec2(P1P2oP1P2, P1P2oP1P4), // row 0
+        vec2(P1P2oP1P4, P1P4oP1P4)  // row 1
+    );
+
+    float2 Puv = mul(inverse(M), float2(P1OoP1P2, P1OoP1P4));
 
     // LOD
-    float d = abs(planeDistxPlaneArea) / pow(planeAreaSquared, 0.75);
+    float d = 0.0; // abs(planeDistxPlaneArea) / pow(planeAreaSquared, 0.75);
 
     return texture2DLod(texLightFiltered, vec2(0.125, 0.125) + 0.75 * Puv, log(2048.0*d)/log(3.0) ).rgb;
 }
